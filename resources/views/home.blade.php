@@ -5,14 +5,11 @@
 @section('content')
   @php
     $quickCategories = [
-      ['title' => 'گوشی موبایل', 'icon' => 'bi-phone'],
-      ['title' => 'ساعت', 'icon' => 'bi-smartwatch'],
-      ['title' => 'هدفون و هندزفری', 'icon' => 'bi-earbuds'],
-      ['title' => 'اسپیکر', 'icon' => 'bi-speaker'],
-      ['title' => 'کنسول و گیم', 'icon' => 'bi-controller'],
-      ['title' => 'لوازم خانگی برقی', 'icon' => 'bi-lightning-charge'],
-      ['title' => 'پاوربانک', 'icon' => 'bi-battery-charging'],
-      ['title' => 'فلش مموری', 'icon' => 'bi-usb-plug'],
+      ['title' => 'موبایل', 'icon' => 'bi-phone', 'category' => 'موبایل'],
+      ['title' => 'گجت پوشیدنی', 'icon' => 'bi-smartwatch', 'category' => 'گجت پوشیدنی'],
+      ['title' => 'صوتی', 'icon' => 'bi-earbuds', 'category' => 'صوتی'],
+      ['title' => 'تبلت', 'icon' => 'bi-tablet', 'category' => 'تبلت'],
+      ['title' => 'لوازم جانبی', 'icon' => 'bi-controller', 'category' => 'لوازم جانبی'],
     ];
 
     $money = fn($n) => number_format($n) . ' تومان';
@@ -104,12 +101,12 @@
       {{-- QUICK CATEGORIES --}}
       <div class="d-flex align-items-center justify-content-between mb-2">
           <div class="fw-bold"><i class="bi bi-lightning-charge ms-1 text-primary"></i> دسته‌بندی سریع</div>
-          <a class="text-decoration-none small fw-bold" href="#">همه دسته‌ها <i class="bi bi-arrow-left-short"></i></a>
+          <a class="text-decoration-none small fw-bold" href="{{ route('products.index') }}">همه محصولات <i class="bi bi-arrow-left-short"></i></a>
       </div>
 
       <div class="quick-cats mb-4">
           @foreach($quickCategories as $cat)
-            <a class="cat-tile" href="#">
+            <a class="cat-tile" href="{{ route('products.archive', ['category' => $cat['category']]) }}">
                 <div class="cat-icon">
                     <i class="bi {{ $cat['icon'] }} fs-3 text-primary"></i>
                 </div>

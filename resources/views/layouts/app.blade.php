@@ -25,16 +25,8 @@
       <div class="collapse navbar-collapse" id="topNav">
         <div class="d-flex align-items-center gap-2 ms-0 me-auto w-100">
           <div class="dropdown d-none d-lg-block">
-            <button class="btn btn-outline-secondary btn-pill dropdown-toggle" data-bs-toggle="dropdown">
-              دسته‌بندی
-            </button>
-            <ul class="dropdown-menu shadow-sm rounded-4 border-0">
-              <li><a class="dropdown-item" href="#">گوشی موبایل</a></li>
-              <li><a class="dropdown-item" href="#">هدفون و هندزفری</a></li>
-              <li><a class="dropdown-item" href="#">شارژر و کابل</a></li>
-              <li><a class="dropdown-item" href="#">پاوربانک</a></li>
-              <li><a class="dropdown-item" href="#">گجت‌ها</a></li>
-            </ul>
+            <a class="btn btn-outline-secondary btn-pill" href="{{ route('products.index') }}">محصولات</a>
+            
           </div>
 
           <div class="input-group search-pill w-100">
