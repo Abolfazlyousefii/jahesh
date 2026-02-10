@@ -5,58 +5,11 @@
 @section('content')
   @php
     $quickCategories = [
-      ['title' => 'گوشی موبایل', 'icon' => 'bi-phone'],
-      ['title' => 'ساعت', 'icon' => 'bi-smartwatch'],
-      ['title' => 'هدفون و هندزفری', 'icon' => 'bi-earbuds'],
-      ['title' => 'اسپیکر', 'icon' => 'bi-speaker'],
-      ['title' => 'کنسول و گیم', 'icon' => 'bi-controller'],
-      ['title' => 'لوازم خانگی برقی', 'icon' => 'bi-lightning-charge'],
-      ['title' => 'پاوربانک', 'icon' => 'bi-battery-charging'],
-      ['title' => 'فلش مموری', 'icon' => 'bi-usb-plug'],
-    ];
-
-    $makeProducts = function ($prefix, $count = 6) {
-      $items = [];
-      for ($i = 1; $i <= $count; $i++) {
-        $price = rand(450000, 12500000);
-        $old = $price + rand(150000, 900000);
-        $discount = (int) round((($old - $price) / $old) * 100);
-        $items[] = [
-          'title' => "$prefix مدل $i",
-          'sub' => 'گارانتی ۱۸ ماه | ارسال سریع',
-          'price' => $price,
-          'old' => $old,
-          'discount' => $discount,
-        ];
-      }
-      return $items;
-    };
-
-    $sections = [
-      [
-        'title' => 'موبایل، امسال بارتو ببند',
-        'bg' => 'bg-soft-pink',
-        'items' => $makeProducts('گوشی اقتصادی', 6),
-        'icon' => 'bi-fire'
-      ],
-      [
-        'title' => 'پر‌فروش‌ترین موبایل',
-        'bg' => 'bg-soft-purple',
-        'items' => $makeProducts('گوشی پرفروش', 6),
-        'icon' => 'bi-stars'
-      ],
-      [
-        'title' => 'پر‌فروش‌ترین اسپیکر',
-        'bg' => 'bg-soft-blue',
-        'items' => $makeProducts('اسپیکر', 6),
-        'icon' => 'bi-volume-up'
-      ],
-      [
-        'title' => 'ویژه همین هفته: ایرپاد و هندزفری',
-        'bg' => 'bg-soft-orange',
-        'items' => $makeProducts('هندزفری', 6),
-        'icon' => 'bi-headphones'
-      ],
+      ['title' => 'موبایل', 'icon' => 'bi-phone', 'category' => 'موبایل'],
+      ['title' => 'گجت پوشیدنی', 'icon' => 'bi-smartwatch', 'category' => 'گجت پوشیدنی'],
+      ['title' => 'صوتی', 'icon' => 'bi-earbuds', 'category' => 'صوتی'],
+      ['title' => 'تبلت', 'icon' => 'bi-tablet', 'category' => 'تبلت'],
+      ['title' => 'لوازم جانبی', 'icon' => 'bi-controller', 'category' => 'لوازم جانبی'],
     ];
 
     $money = fn($n) => number_format($n) . ' تومان';
@@ -148,12 +101,12 @@
       {{-- QUICK CATEGORIES --}}
       <div class="d-flex align-items-center justify-content-between mb-2">
           <div class="fw-bold"><i class="bi bi-lightning-charge ms-1 text-primary"></i> دسته‌بندی سریع</div>
-          <a class="text-decoration-none small fw-bold" href="#">همه دسته‌ها <i class="bi bi-arrow-left-short"></i></a>
+          <a class="text-decoration-none small fw-bold" href="{{ route('products.index') }}">همه محصولات <i class="bi bi-arrow-left-short"></i></a>
       </div>
 
       <div class="quick-cats mb-4">
           @foreach($quickCategories as $cat)
-            <a class="cat-tile" href="#">
+            <a class="cat-tile" href="{{ route('products.archive', ['category' => $cat['category']]) }}">
                 <div class="cat-icon">
                     <i class="bi {{ $cat['icon'] }} fs-3 text-primary"></i>
                 </div>
@@ -182,7 +135,7 @@
                 <div class="row g-3">
                     @foreach($section['items'] as $p)
                       <div class="col-12 col-md-6 col-lg-4">
-                          <div class="product-card p-3">
+                          <a class="product-card p-3 d-block text-decoration-none text-dark" href="{{ route('products.show', $p['id']) }}">
                               <div class="d-flex gap-3">
                                   <div class="p-thumb">
                                       <i class="bi bi-box-seam"></i>
@@ -192,31 +145,24 @@
                                       <div class="d-flex justify-content-between align-items-start gap-2">
                                           <h3 class="p-title">{{ $p['title'] }}</h3>
                                           <span class="badge badge-discount rounded-pill px-2 py-1">
-                                              {{ $p['discount'] }}%
+                                              {{ (int) round((($p['old_price'] - $p['price']) / $p['old_price']) * 100) }}%
                                           </span>
                                       </div>
 
-                                      <p class="p-sub">{{ $p['sub'] }}</p>
+                                      <p class="p-sub">{{ $p['subtitle'] }}</p>
 
                                       <div class="d-flex align-items-end justify-content-between mt-2">
                                           <div>
                                               <div class="price text-dark">{{ $money($p['price']) }}</div>
-                                              <div class="old-price">{{ $money($p['old']) }}</div>
+                                              <div class="old-price">{{ $money($p['old_price']) }}</div>
                                           </div>
 
-                                          <div class="d-flex gap-2">
-                                              <button class="btn btn-outline-secondary btn-sm btn-pill">
-                                                  <i class="bi bi-heart"></i>
-                                              </button>
-                                              <button class="btn btn-primary btn-sm btn-pill">
-                                                  افزودن <i class="bi bi-bag-plus ms-1"></i>
-                                              </button>
-                                          </div>
+                                          <span class="btn btn-outline-primary btn-sm btn-pill">مشاهده محصول</span>
                                       </div>
 
                                   </div>
                               </div>
-                          </div>
+                          </a>
                       </div>
                     @endforeach
                 </div>
